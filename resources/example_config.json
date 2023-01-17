@@ -1,0 +1,14 @@
+{
+    "127.0.0.1:8080": {
+        "path": "/path/to/serial/port/1"
+    },
+    "127.0.0.1:8081": {
+        "path": "/path/to/serial/port/1"
+    },
+    "127.0.0.1:8082": {
+        "path": "/path/to/serial/port/2"
+    },
+    "default_settings": {
+        "baud_rate": 9600
+    }
+}

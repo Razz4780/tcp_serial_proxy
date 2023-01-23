@@ -17,7 +17,8 @@ struct Args {
     /// Config is a JSON object containing mappings from TCP ports to serial port configs
     /// and optional default settings under the key "default_settings".
     /// Values from the default settings will be used for all ports where corresponding values are missing.
-    /// Multiple TCP ports can be proxied to one serial port, but serial ports are opened
+    /// Multiple TCP ports can be proxied to one serial port, but serial ports are set to be exlusive
+    /// (two TCP connections cannot use the same serial port).
     #[arg(short, long)]
     config: PathBuf,
 }

@@ -1,2 +1,5 @@
 # tcp_serial_proxy
-A simple tool for connecting TCP and ports.
+This tool is a server for exposing serial ports through TCP. The server listens on a configurable set of TCP ports. Each TCP port is mapped to some serial port. Multipe TCP ports may be mapped to a single serial port, but only one TCP connection can use that port at the same time. Serial ports are only opened upon establishing a TCP connection and immediately set to be exclusive. TCP ports used by this tool handle only one connection at the same time.
+
+# Configuration
+This tool is configured with a configuration file in JSON format. Path to the file is passed as a commandline argument. Configuration is a single JSON object with TCP socket addresses as keys and serial port configuration as objects. Serial port configuration is a JSON object with keys `path` and `baud_rate`. A default serial port configuration may be provided under a special `default_settings` key. Values from the default configuration will be used to fill all missing values. Example configuration is presented in `resources/example_config.json`.

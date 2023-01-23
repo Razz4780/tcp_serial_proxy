@@ -29,7 +29,7 @@ impl DirtySerialPortSettings {
                 })?,
             baud_rate: self
                 .baud_rate
-                .or(defaults.and_then(|d| d.baud_rate))
+                .or_else(|| defaults.and_then(|d| d.baud_rate))
                 .ok_or_else(|| {
                     anyhow::anyhow!("'baud_rate' field is missing and there is no default setting")
                 })?,

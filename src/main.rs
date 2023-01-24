@@ -1,6 +1,6 @@
 use anyhow::Context;
 use clap::Parser;
-use std::{fs::File, path::PathBuf, process::ExitCode};
+use std::{fs::File, path::PathBuf, process::ExitCode, time::Duration};
 use tcp_serial_proxy::{
     proxy_server::ProxyServer,
     server_config::{DirtyServerConfig, ServerConfig},
@@ -21,6 +21,10 @@ struct Args {
     /// (two TCP connections cannot use the same serial port).
     #[arg(short, long)]
     config: PathBuf,
+    /// Timeout in milliseconds for active TCP streams.
+    /// This timeout is applied to reading and writing.
+    #[arg(short, long, default_value_t = 5000)]
+    tcp_timeout: u64,
 }
 
 fn run(args: Args) -> anyhow::Result<()> {
@@ -37,7 +41,11 @@ fn run(args: Args) -> anyhow::Result<()> {
             })?;
         let clean_config = ServerConfig::try_from(dirty_config)
             .with_context(|| format!("invalid config: {}", args.config.display()))?;
-        ProxyServer::new(clean_config, stop_rx)
+        ProxyServer::new(
+            clean_config,
+            Duration::from_millis(args.tcp_timeout),
+            stop_rx,
+        )
     };
 
     let runtime = Builder::new_current_thread()
